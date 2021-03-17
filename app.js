@@ -1,45 +1,86 @@
-var http = require('http');
+const express = require('express');
+const app = express();
+const path = require('path');
 var url = require('url');
-var fs = require('fs');
-var unirest = require('unirest');
+const unirest = require('unirest');
 
-http.createServer(function (req, res) {
+app.get('/', function(req, res){
+
+    res.sendFile(path.join(__dirname+'/form.html'));
+    
+})
+
+app.get('/search', function(req, res){
 
     var q = url.parse(req.url, true).query;
     var cityname = q.cityname;
+    var unit = q.unit;
 
-    function checkweather(city){
-        unirest
-        .post('https://api.openweathermap.org/data/2.5/weather?appid=2bc0eb60cbe0d0307856124129e7a460&units=metric&q=' + city)
-        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
-        .end((response) => {
-            if(response.body.cod == 404){
-                console.log("Cidade não foi encontrada");
-            }
-            else{
-                console.log(city + ": Estão " + response.body.main.temp + " graus Celsius");
-            }
-        });
+    if(cityname!=''){
+        var Request = unirest.post(`https://api.openweathermap.org/data/2.5/weather?appid=2bc0eb60cbe0d0307856124129e7a460&units=${unit}&q=${cityname}`);
+ 
+        Request
+            .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+            .end(function (response) {
+                if(unit == 'metric'){
+                    unit = 'C';
+                }
+
+                else if(unit == 'imperial'){
+                    unit = 'F';
+                }
+
+                else{
+                    unit = 'K';
+                }
+
+                if(response.body.cod == 404){
+                    console.log("City not valid");
+                    res.end("City not valid");
+                }
+                else{
+                    console.log(cityname + ": " + response.body.main.temp + unit);
+                    res.end(cityname + ": " + response.body.main.temp + unit);
+                }
+            })
     }
+    else{
+        res.end('City not valid');
+    }
+});
 
-    fs.readFile('Node/Weather/form.html', function(err, data) {
+app.get('/api/:cityname', function(req, res){
+    cityname = req.params.cityname;
 
-        if (err) {
-            res.writeHead(404, {'Content-Type': 'text/html'});
-            return res.end("404 Not Found");
-        } 
+    var Request = unirest.post(`https://api.openweathermap.org/data/2.5/weather?appid=2bc0eb60cbe0d0307856124129e7a460&q=${cityname}`);
+ 
+    Request
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .end(function (response) {
+            res.end(JSON.stringify(response.body))
+        })
 
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(data);
+});
 
-        if(cityname!=null){
-            checkweather(cityname);
-        }
+app.get('/api/:cityname/:unit', function(req, res){
+    cityname = req.params.cityname;
+    unit = req.params.unit;
 
-        res.end();
+    var Request = unirest.post(`https://api.openweathermap.org/data/2.5/weather?appid=2bc0eb60cbe0d0307856124129e7a460&units=${unit}&q=${cityname}`);
+ 
+    Request
+        .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
+        .end(function (response) {
+            res.end(JSON.stringify(response.body))
+        })
 
-    });
+});
 
-}).listen(3000);
+app.post('/api', function(req, res){
 
-console.log('running on port 3000');
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, function(){
+    console.log(`Listening on port ${port}`);
+});
