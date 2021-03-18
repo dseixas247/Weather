@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    </head>   
+
+    <body style="background-image: url('https://diginomica.com/sites/default/files/images/2020-02/field-533541_1280.jpg');
+    background-size: cover;">
+
+        <div class="d-flex justify-content-center">
+
+            <div class="jumbotron text-center">
+
+                <h1 style=" color: #000;">WeatherChecker</h1>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="d-flex justify-content-center">
+           
+            <form action="/" method="POST" style="font-weight: bold; background: rgba(128, 164, 255, 0.4); padding: 10px;">
+
+                <label for="cityname" style="font-weight: bold;">City:</label>
+                <input type="text" id="cityname" name="cityname"><br><br>
+
+                <input type="radio" id="unit" name="unit" value="metric">
+                <label for="unit" style="font-weight: bold; margin-right:4px;">metric</label>
+
+                <input type="radio" id="unit" name="unit" value="imperial">
+                <label for="unit" style="font-weight: bold; margin-right:4px;">imperial</label><br><br>
+
+                <input type="submit" class="btn btn-primary" style="margin-left: 32px;" value="Check the Weather">
+
+            </form>
+
+        </div>
+        
+        <br><br>
+
+        <div class="d-flex justify-content-center">
+
+            <p style="font-size: 30px; font-weight: bold;"><%= city %> <%= temperature%><%= degree %></p>
+
+        </div>
+
+    </body>
+
+</html>
