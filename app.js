@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-const path = require('path');
 const axios = require('axios');
 const bodyParser = require("body-parser");
+const Joi = require("joi");
 
 app.set('view engine', 'ejs')
 
@@ -28,6 +28,89 @@ app.post('/', function(req, res){
 
 });
 
+app.get('/api/:city', function(req, res){
+
+    cityname = req.params.city;
+
+    axios.get('https://api.openweathermap.org/data/2.5/weather', {
+            params: {
+                appid: '2bc0eb60cbe0d0307856124129e7a460',
+                q: cityname,
+            }
+        })
+        .then(
+            function(response){
+                res.end(JSON.stringify(response.data));
+            }
+        )
+        .catch(
+            function (error) {
+                res.status(400).end();
+                return Promise.reject(error);
+            }
+        );
+
+});
+
+app.get('/api/:city/:unit', function(req, res){
+
+    cityname = req.params.city;
+    unit = req.params.unit;
+
+    axios.get('https://api.openweathermap.org/data/2.5/weather', {
+            params: {
+                appid: '2bc0eb60cbe0d0307856124129e7a460',
+                q: cityname,
+                units: unit
+            }
+        })
+        .then(
+            function(response){
+                res.end(JSON.stringify(response.data));
+            }
+        )
+        .catch(
+            function (error) {
+                res.status(400).end();
+                return Promise.reject(error);
+            }
+        );
+
+});
+
+app.post('/api', function(req, res){
+
+    const schema = Joi.object({
+        cityname: Joi.string().required(),
+        unit: Joi.string()
+    });
+
+    const result = schema.validate(req.body);
+
+    if (result.error){
+        res.status(400).end();
+        return;
+    }
+
+    axios.get('https://api.openweathermap.org/data/2.5/weather', {
+            params: {
+                appid: '2bc0eb60cbe0d0307856124129e7a460',
+                q: req.body.cityname,
+                units: req.body.unit
+            }
+        })
+        .then(
+            function(response){
+                res.end(JSON.stringify(response.data));
+            }
+        )
+        .catch(
+            function (error) {
+                res.status(400).end();
+            }
+        );
+    
+});
 
 
 const port = process.env.PORT || 3000;
