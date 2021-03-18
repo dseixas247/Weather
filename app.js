@@ -36,7 +36,7 @@ app.get('/search', function(req, res){
 
                 if(response.body.cod == 404){
                     console.log("City not valid");
-                    res.end("City not valid");
+                    res.status(400).end("City not valid");
                 }
                 else{
                     console.log(cityname + ": " + response.body.main.temp + unit);
@@ -45,7 +45,7 @@ app.get('/search', function(req, res){
             })
     }
     else{
-        res.end('City not valid');
+        res.status(400).end('City not valid');
     }
 });
 
@@ -57,7 +57,12 @@ app.get('/api/:cityname', function(req, res){
     Request
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .end(function (response) {
-            res.end(JSON.stringify(response.body))
+            if(response.body.cod == 404){
+                res.status(400).end();
+            }
+            else{
+                res.end(JSON.stringify(response.body.main));
+            }
         })
 
 });
@@ -71,7 +76,12 @@ app.get('/api/:cityname/:unit', function(req, res){
     Request
         .headers({'Accept': 'application/json', 'Content-Type': 'application/json'})
         .end(function (response) {
-            res.end(JSON.stringify(response.body))
+            if(response.body.cod == 404){
+                res.status(400).end();
+            }
+            else{
+                res.end(JSON.stringify(response.body.main));
+            }
         })
 
 });
