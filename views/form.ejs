@@ -7,7 +7,7 @@
     </head>   
 
     <body style="background-image: url('https://diginomica.com/sites/default/files/images/2020-02/field-533541_1280.jpg');
-    background-size: cover;">
+    background-size: cover; padding-top: 100px;">
 
         <div class="d-flex justify-content-center">
 
@@ -23,20 +23,24 @@
 
         <div class="d-flex justify-content-center">
            
-            <form action="/" method="POST" style="font-weight: bold; background: rgba(128, 164, 255, 0.4); padding: 10px;">
+            <div style="font-weight: bold; background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 25px;">
 
-                <label for="cityname" style="font-weight: bold;">City:</label>
-                <input type="text" id="cityname" name="cityname"><br><br>
+                <form action="/" method="POST">
 
-                <input type="radio" id="unit" name="unit" value="metric">
-                <label for="unit" style="font-weight: bold; margin-right:4px;">metric</label>
+                    <label for="cityname" style="font-weight: bold;">City:</label>
+                    <input type="text" id="cityname" name="cityname"><br><br>
 
-                <input type="radio" id="unit" name="unit" value="imperial">
-                <label for="unit" style="font-weight: bold; margin-right:4px;">imperial</label><br><br>
+                    <input type="radio" id="unit" name="unit" value="metric">
+                    <label for="unit" style="font-weight: bold; margin-right:4px;">metric</label>
 
-                <input type="submit" class="btn btn-primary" style="margin-left: 32px;" value="Check the Weather">
+                    <input type="radio" id="unit" name="unit" value="imperial">
+                    <label for="unit" style="font-weight: bold; margin-right:4px;">imperial</label><br><br>
 
-            </form>
+                    <input type="submit" class="btn btn-primary" style="margin-left: 32px;" value="Check the Weather">
+
+                </form>
+
+            </div>
 
         </div>
         
