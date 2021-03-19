@@ -23,7 +23,8 @@ app.get('/', function(req, res){                                                
     res.render('form', {                                                                    //rendering do form.ejs
         city: '',
         temperature: '',
-        degree: ''
+        degree: '',
+        icon: ''
     });
     
 })
@@ -108,7 +109,8 @@ async function respondWeather(res, cityname, unit) {                            
         res.render('form', {                                                                //rendering da página form com a resposta
             city: data.name + ":",
             temperature: data.main.temp,
-            degree: degree
+            degree: degree,
+            icon: "http://openweathermap.org/img/wn/" + data.weather[0].icon+"@2x.png"
         });
     } catch (error) {                                                                       //captura de erro
         res.status(400).render('error');                                                    //rendering da página de erro
