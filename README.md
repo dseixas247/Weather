@@ -18,7 +18,7 @@ Para fazer um post request á Api:
 Corpo de request em json para o url http://localhost:3000/api
 Json deve ter esta estrutura:
 {
-  "cityname": nomedacidade
+  "cityname": nomedacidade,
   "unit": unidade
 }
 onde nomedacidade é obrigatório e tem de ser escrito corretamente
