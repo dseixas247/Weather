@@ -3,7 +3,7 @@ Website que utiliza uma Api para consulta de temperatura numa cidade escolhida p
 
 
 Para aceder o Website:
-http://localhost:3000
+http://localhost:300
 
 
 API:
